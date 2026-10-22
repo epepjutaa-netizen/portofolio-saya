@@ -1,281 +1,373 @@
+```html
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Epepjutaa - Portfolio</title>
+    <title>Cyberpunk Portfolio - Epepjutaa Dev</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Particles.js CDN -->
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            bg: '#0a0d14',
+                            card: '#111827',
+                            border: '#1f2937',
+                            neon: '#00f0ff',
+                            purple: '#7000ff',
+                            pink: '#ff007f',
+                            green: '#00ff66'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
         body {
-            background-color: #0b0f19;
-            color: #c9d1d9;
-            font-family: system-ui, -apple-system, sans-serif;
+            background-color: #060913;
+            color: #e2e8f0;
             overflow-x: hidden;
-            position: relative;
         }
-        
-        /* Particle Background Canvas Container */
-        #particles-js {
+
+        /* Canvas particles */
+        #bg-canvas {
             position: fixed;
-            width: 100%;
-            height: 100%;
             top: 0;
             left: 0;
-            z-index: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
             pointer-events: none;
         }
 
-        .glass-card {
-            background: rgba(17, 24, 39, 0.8);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(0, 242, 254, 0.2);
-            transition: all 0.4s ease;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        /* Neon Glow Effects */
+        .glow-neon {
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+        }
+        .glow-neon-lg {
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.6);
+        }
+        .glow-purple {
+            box-shadow: 0 0 15px rgba(112, 0, 255, 0.4);
+        }
+        .text-glow-neon {
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.7);
+        }
+        .text-glow-pink {
+            text-shadow: 0 0 10px rgba(255, 0, 127, 0.7);
         }
 
-        .glass-card:hover {
-            border-color: rgba(0, 242, 254, 0.5);
-            box-shadow: 0 12px 40px 0 rgba(0, 242, 254, 0.25);
+        /* Glassmorphism */
+        .glass-panel {
+            background: rgba(17, 24, 39, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 240, 255, 0.15);
+        }
+        .glass-panel:hover {
+            border-color: rgba(0, 240, 255, 0.4);
         }
 
-        .glow-text {
-            text-shadow: 0 0 20px rgba(0, 242, 254, 0.6);
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0d14;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f2937;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 240, 255, 0.2);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00f0ff;
         }
 
-        /* Welcome Overlay Animations */
-        #welcome-overlay {
-            transition: opacity 0.8s ease, visibility 0.8s ease;
+        /* Terminal styling */
+        .terminal-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 15px;
+            background-color: #00f0ff;
+            animation: blink 1s infinite;
+            vertical-align: middle;
         }
-        .fade-out {
-            opacity: 0 !important;
-            visibility: hidden !important;
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
 
-        /* Modal glass style */
-        .modal-glass {
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(0, 242, 254, 0.3);
+        /* Audio Visualizer Bars */
+        .bar {
+            width: 3px;
+            background: #00f0ff;
+            animation: pulse-audio 1.2s infinite ease-in-out alternate;
+        }
+        @keyframes pulse-audio {
+            0% { height: 4px; }
+            100% { height: 20px; }
         }
     </style>
 </head>
-<body class="min-h-screen py-8 px-4 relative">
+<body class="font-sans antialiased selection:bg-cyber-neon selection:text-black">
 
-    <!-- CONTAINER ANIMASI BACKGROUND -->
-    <div id="particles-js"></div>
+    <!-- Background Particle Canvas -->
+    <canvas id="bg-canvas"></canvas>
 
-    <!-- WELCOME SCREEN ANIMATED OVERLAY -->
-    <div id="welcome-overlay" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#0b0f19] px-4 text-center">
-        <div class="relative mb-6">
-            <div id="welcome-avatar-container" class="w-28 h-28 rounded-full border-2 border-[#00f2fe] p-1 shadow-lg shadow-[#00f2fe]/40 overflow-hidden mx-auto bg-slate-900 flex items-center justify-center">
-                <img id="welcome-avatar" src="https://ui-avatars.com/api/?name=Epepjutaa&background=0D8ABC&color=fff&size=128" class="w-full h-full object-cover rounded-full" alt="Profile Avatar">
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-40 glass-panel border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Logo / Brand -->
+            <div class="flex items-center space-x-3">
+                <span class="text-cyber-neon font-mono font-bold text-xl tracking-wider text-glow-neon">
+                    &lt;<span id="header-brand-name">Epepjutaa</span>/&gt;
+                </span>
             </div>
-            <div class="absolute -bottom-1 -right-1 bg-[#00f2fe] text-black w-7 h-7 rounded-full flex items-center justify-center text-xs shadow-md">
-                <i class="fa-solid fa-bolt"></i>
-            </div>
-        </div>
-        <h1 id="welcome-title" class="text-3xl md:text-5xl font-black text-white glow-text mb-3">Selamat Datang!</h1>
-        <p id="welcome-subtitle" class="text-[#00f2fe] font-medium text-sm md:text-base mb-8 max-w-md">Portofolio Interactive Full-Stack Developer & Tech Enthusiast</p>
-        
-        <button onclick="closeWelcomeScreen()" class="bg-gradient-to-r from-[#00f2fe] to-[#7928ca] hover:scale-105 active:scale-95 text-white font-extrabold px-8 py-3.5 rounded-full text-sm md:text-base shadow-lg shadow-[#00f2fe]/30 transition-all flex items-center gap-3">
-            <span>BUKA PORTOFOLIO</span>
-            <i class="fa-solid fa-arrow-right"></i>
-        </button>
-    </div>
 
-    <!-- UTAMA PORTOFOLIO -->
-    <div class="container mx-auto max-w-4xl relative z-10">
-        
-        <!-- HEADER / HERO -->
-        <header class="glass-card rounded-3xl p-6 md:p-10 mb-8 text-center relative overflow-hidden">
-            <!-- Tombol Edit Profil di Pojok Kanan Atas Header -->
-            <button onclick="toggleProfileModal()" class="absolute top-4 right-4 bg-slate-800/80 hover:bg-slate-700 text-[#00f2fe] border border-cyan-500/30 p-2.5 rounded-2xl text-xs flex items-center gap-2 transition-all shadow-md z-20">
-                <i class="fa-solid fa-gear text-sm"></i> <span class="hidden sm:inline font-bold">Edit Profil</span>
-            </button>
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-6 text-sm font-mono">
+                <a href="#about" class="hover:text-cyber-neon transition-colors"><span class="text-cyber-pink">01.</span> Tentag</a>
+                <a href="#skills" class="hover:text-cyber-neon transition-colors"><span class="text-cyber-pink">02.</span> Skill</a>
+                <a href="#projects" class="hover:text-cyber-neon transition-colors"><span class="text-cyber-pink">03.</span> Proyek</a>
+                <a href="#experience" class="hover:text-cyber-neon transition-colors"><span class="text-cyber-pink">04.</span> Karir</a>
+                <a href="#contact" class="hover:text-cyber-neon transition-colors"><span class="text-cyber-pink">05.</span> Kontak</a>
+            </nav>
 
-            <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=0,2,25&height=150&section=header&text=Epepjutaa%20Dev&fontSize=36&fontColor=ffffff&animation=twinkling" class="w-full rounded-2xl mb-6 shadow-md" alt="Header Banner" />
-            
-            <div class="flex flex-col items-center justify-center mb-4">
-                <div class="w-24 h-24 rounded-full border-2 border-[#00f2fe] p-1 shadow-lg shadow-[#00f2fe]/30 overflow-hidden mb-3 bg-slate-900">
-                    <img id="profile-avatar" src="https://ui-avatars.com/api/?name=Epepjutaa&background=0D8ABC&color=fff&size=128" class="w-full h-full object-cover rounded-full" alt="Foto Profile">
-                </div>
-                <h1 id="profile-name" class="text-3xl md:text-5xl font-black text-white glow-text mb-1">👋 Halo, Saya Epepjutaa</h1>
-                <p id="profile-role" class="text-[#00f2fe] font-semibold text-lg tracking-wide">🚀 Full-Stack Developer & Tech Enthusiast</p>
-            </div>
-            
-            <!-- BUTTON SOSIAL MEDIA -->
-            <div class="flex flex-wrap gap-4 justify-center mt-6">
-                <a href="https://instagram.com" target="_blank" class="bg-gradient-to-r from-[#E4405F] to-[#fd1d1d] hover:scale-105 text-white font-bold px-5 py-2.5 rounded-xl text-sm flex items-center gap-2 transition-transform shadow-lg shadow-pink-500/30">
-                    <i class="fa-brands fa-instagram text-lg"></i> Instagram
-                </a>
-                <a href="https://github.com/epepjutaa-netizen" target="_blank" class="bg-[#1f2937] border border-cyan-500/30 hover:border-cyan-400 hover:scale-105 text-white font-bold px-5 py-2.5 rounded-xl text-sm flex items-center gap-2 transition-transform shadow-lg shadow-cyan-500/20">
-                    <i class="fa-brands fa-github text-lg"></i> GitHub
-                </a>
-                <a href="mailto:emailanda@gmail.com" class="bg-gradient-to-r from-[#EA4335] to-[#ff6b5b] hover:scale-105 text-white font-bold px-5 py-2.5 rounded-xl text-sm flex items-center gap-2 transition-transform shadow-lg shadow-red-500/30">
-                    <i class="fa-solid fa-envelope text-lg"></i> Email
-                </a>
-            </div>
-        </header>
+            <!-- Actions (Audio Toggle, Terminal, Settings) -->
+            <div class="flex items-center space-x-3">
+                <!-- Ambient Audio Synthesizer Toggle -->
+                <button id="audio-toggle" title="Toggle Cyber Sound FX" class="p-2.5 rounded-lg border border-gray-700 bg-gray-900/80 hover:border-cyber-neon transition flex items-center space-x-2 text-xs font-mono">
+                    <i class="fas fa-volume-mute text-gray-400" id="audio-icon"></i>
+                    <div id="visualizer" class="hidden flex items-end space-x-0.5 h-4">
+                        <div class="bar" style="animation-delay: 0.1s"></div>
+                        <div class="bar" style="animation-delay: 0.3s"></div>
+                        <div class="bar" style="animation-delay: 0.2s"></div>
+                    </div>
+                </button>
 
-        <!-- TENTANG SAYA -->
-        <section class="glass-card rounded-3xl p-6 md:p-8 mb-8">
-            <h2 class="text-xl font-bold text-white mb-4 border-b border-gray-700/60 pb-3 flex items-center gap-3">
-                <i class="fa-solid fa-user-astronaut text-[#00f2fe] text-2xl"></i> Tentang Saya
-            </h2>
-            <ul class="space-y-3 text-gray-300 text-sm md:text-base leading-relaxed">
-                <li class="flex items-start gap-2"><span class="text-lg">🔭</span> <span><b>Proyek Saat Ini:</b> Mengembangkan aplikasi & platform web modern interaktif.</span></li>
-                <li class="flex items-start gap-2"><span class="text-lg">🌱</span> <span><b>Sedang Mempelajari:</b> JavaScript, Python, HTML/CSS, & React.</span></li>
-                <li class="flex items-start gap-2"><span class="text-lg">💬</span> <span><b>Diskusi:</b> Terbuka untuk diskusi pemrograman, teknologi, dan kolaborasi.</span></li>
-            </ul>
-        </section>
+                <!-- Terminal Drawer Toggle -->
+                <button id="terminal-toggle-btn" title="Open Terminal" class="p-2.5 rounded-lg border border-cyber-neon/40 bg-cyber-neon/10 hover:bg-cyber-neon/20 text-cyber-neon transition text-xs font-mono flex items-center space-x-1">
+                    <i class="fas fa-terminal"></i>
+                    <span class="hidden sm:inline">CLI</span>
+                </button>
 
-        <!-- BAHASA & TOOLS -->
-        <section class="glass-card rounded-3xl p-6 md:p-8 mb-8">
-            <h2 class="text-xl font-bold text-white mb-4 border-b border-gray-700/60 pb-3 flex items-center gap-3">
-                <i class="fa-solid fa-code text-[#00f2fe] text-2xl"></i> Bahasa & Tools
-            </h2>
-            <div class="flex flex-wrap gap-2.5">
-                <span class="bg-[#F7DF1E] text-black font-extrabold px-3.5 py-2 rounded-xl text-xs shadow-md">JavaScript</span>
-                <span class="bg-[#3776AB] text-white font-extrabold px-3.5 py-2 rounded-xl text-xs shadow-md">Python</span>
-                <span class="bg-[#E34F26] text-white font-extrabold px-3.5 py-2 rounded-xl text-xs shadow-md">HTML5</span>
-                <span class="bg-[#1572B6] text-white font-extrabold px-3.5 py-2 rounded-xl text-xs shadow-md">CSS3</span>
-                <span class="bg-[#61DAFB] text-black font-extrabold px-3.5 py-2 rounded-xl text-xs shadow-md">React</span>
-                <span class="bg-[#F05033] text-white font-extrabold px-3.5 py-2 rounded-xl text-xs shadow-md">Git</span>
-                <span class="bg-[#007ACC] text-white font-extrabold px-3.5 py-2 rounded-xl text-xs shadow-md">VS Code</span>
-            </div>
-        </section>
-
-        <!-- STATISTIK GITHUB -->
-        <section class="glass-card rounded-3xl p-6 md:p-8 mb-8">
-            <h2 class="text-xl font-bold text-white mb-4 border-b border-gray-700/60 pb-3 flex items-center gap-3">
-                <i class="fa-solid fa-chart-line text-[#00f2fe] text-2xl"></i> Statistik GitHub
-            </h2>
-            <div class="space-y-4">
-                <img src="https://github-readme-stats.vercel.app/api?username=epepjutaa-netizen&show_icons=true&theme=tokyonight&include_all_commits=true" class="w-full rounded-2xl shadow-lg" alt="Stats GitHub" />
-                <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=epepjutaa-netizen&layout=compact&theme=tokyonight" class="w-full rounded-2xl shadow-lg" alt="Top Languages" />
-            </div>
-        </section>
-
-        <!-- FOOTER -->
-        <footer class="text-center py-6 text-xs text-gray-400">
-            <p>© 2026 Epepjutaa. All rights reserved.</p>
-            <div class="mt-3">
-                <img src="https://profile-counter.glitch.me/epepjutaa-netizen/count.svg" alt="Visitor Count" class="mx-auto rounded-md shadow-sm" />
-            </div>
-        </footer>
-
-    </div>
-
-    <!-- MODAL EDIT PROFIL POP-UP -->
-    <div id="profile-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-        <div class="modal-glass rounded-3xl p-6 md:p-8 max-w-md w-full shadow-2xl relative">
-            <div class="flex justify-between items-center mb-6 border-b border-gray-700 pb-3">
-                <h3 class="text-lg font-bold text-white flex items-center gap-2">
-                    <i class="fa-solid fa-user-gear text-[#00f2fe]"></i> Edit Profil Kamu
-                </h3>
-                <button onclick="toggleProfileModal()" class="text-gray-400 hover:text-white text-xl">
-                    <i class="fa-solid fa-xmark"></i>
+                <!-- Profile Settings Modal Trigger -->
+                <button id="open-settings-btn" title="Pengaturan Profil" class="p-2.5 rounded-lg border border-gray-700 bg-gray-900/80 hover:border-cyber-purple hover:text-cyber-purple transition">
+                    <i class="fas fa-cog"></i>
                 </button>
             </div>
-
-            <form id="profile-form" onsubmit="saveProfile(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-bold text-gray-300 mb-1">Nama Tampilan</label>
-                    <input type="text" id="input-name" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#00f2fe]" placeholder="Masukkan nama..." required>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-bold text-gray-300 mb-1">Profesi / Subtitle</label>
-                    <input type="text" id="input-role" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#00f2fe]" placeholder="Contoh: Full-Stack Developer" required>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-bold text-gray-300 mb-1">URL Foto Profil (Link Gambar)</label>
-                    <input type="url" id="input-avatar" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#00f2fe]" placeholder="https://..." required>
-                </div>
-
-                <div class="pt-4 flex gap-3">
-                    <button type="button" onclick="toggleProfileModal()" class="w-1/2 bg-slate-800 hover:bg-slate-700 text-gray-300 font-bold py-2.5 rounded-xl text-sm transition-all">Batal</button>
-                    <button type="submit" class="w-1/2 bg-gradient-to-r from-[#00f2fe] to-[#00c6ff] text-slate-900 font-bold py-2.5 rounded-xl text-sm hover:opacity-90 transition-all shadow-md">Simpan Perubahan</button>
-                </div>
-            </form>
         </div>
-    </div>
+    </header>
 
-    <!-- KONFIGURASI PARTICLES & SCRIPT EDIT PROFIL -->
-    <script>
-        // Init Particles Background
-        particlesJS('particles-js', {
-            "particles": {
-                "number": { "value": 50, "density": { "enable": true, "value_area": 800 } },
-                "color": { "value": "#00f2fe" },
-                "shape": { "type": "circle" },
-                "opacity": { "value": 0.5, "random": false },
-                "size": { "value": 3, "random": true },
-                "line_linked": { "enable": true, "distance": 150, "color": "#00f2fe", "opacity": 0.3, "width": 1 },
-                "move": { "enable": true, "speed": 2, "direction": "none", "out_mode": "out" }
-            },
-            "interactivity": {
-                "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" } }
-            },
-            "retina_detect": true
-        });
+    <!-- Main Content Container -->
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-20">
 
-        // Function Tutup Welcome Screen
-        function closeWelcomeScreen() {
-            const overlay = document.getElementById('welcome-overlay');
-            overlay.classList.add('fade-out');
-        }
+        <!-- Hero / Profile Section -->
+        <section id="about" class="pt-6">
+            <div class="glass-panel p-6 sm:p-10 rounded-2xl relative overflow-hidden">
+                <!-- Background decorative glowing grid -->
+                <div class="absolute -right-20 -top-20 w-80 h-80 bg-cyber-neon/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -left-20 -bottom-20 w-80 h-80 bg-cyber-purple/10 rounded-full blur-3xl pointer-events-none"></div>
 
-        // Toggle Modal Edit Profile
-        function toggleProfileModal() {
-            const modal = document.getElementById('profile-modal');
-            modal.classList.toggle('hidden');
+                <div class="flex flex-col md:flex-row items-center gap-8 relative z-10">
+                    <!-- Avatar Image with Glowing Ring -->
+                    <div class="relative group">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-cyber-neon via-cyber-purple to-cyber-pink rounded-full blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-pulse"></div>
+                        <img id="profile-avatar" src="https://i.ibb.co/vz1yW9g/hacker-quokka.png" alt="Avatar" class="relative w-36 h-36 sm:w-44 sm:h-44 rounded-full object-cover border-2 border-cyber-neon shadow-2xl bg-gray-900">
+                        <span class="absolute bottom-2 right-2 w-5 h-5 bg-cyber-green rounded-full border-2 border-gray-900" title="Status: Online"></span>
+                    </div>
 
-            // Set value input sesuai data terkini
-            if(!modal.classList.contains('hidden')) {
-                const currentName = localStorage.getItem('user_name') || 'Epepjutaa';
-                const currentRole = localStorage.getItem('user_role') || '🚀 Full-Stack Developer & Tech Enthusiast';
-                const currentAvatar = localStorage.getItem('user_avatar') || 'https://ui-avatars.com/api/?name=Epepjutaa&background=0D8ABC&color=fff&size=128';
+                    <!-- Intro Text -->
+                    <div class="flex-1 text-center md:text-left space-y-4">
+                        <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-cyber-neon/30 bg-cyber-neon/10 text-cyber-neon text-xs font-mono">
+                            <span class="w-2 h-2 rounded-full bg-cyber-neon animate-ping"></span>
+                            <span>Sistem Siap & Online</span>
+                        </div>
+                        
+                        <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight">
+                            Halo, Saya <span id="profile-name" class="text-transparent bg-clip-text bg-gradient-to-r from-cyber-neon via-blue-400 to-cyber-purple text-glow-neon">Putraa</span> 👋
+                        </h1>
+                        
+                        <p id="profile-role" class="text-lg text-gray-300 font-mono">
+                            🚀 Pengembang Full-Stack & Penggemar Keamanan Cyber
+                        </p>
 
-                document.getElementById('input-name').value = currentName;
-                document.getElementById('input-role').value = currentRole;
-                document.getElementById('input-avatar').value = currentAvatar;
-            }
-        }
+                        <p id="profile-bio" class="text-gray-400 max-w-2xl text-sm leading-relaxed">
+                            Fokus membangun aplikasi web interaktif berkinerja tinggi, sistem yang aman, serta pengalaman pengguna masa depan berestetika futuristik.
+                        </p>
 
-        // Simpan Profile Ke LocalStorage & Tampilkan di Web
-        function saveProfile(event) {
-            event.preventDefault();
-            const newName = document.getElementById('input-name').value;
-            const newRole = document.getElementById('input-role').value;
-            const newAvatar = document.getElementById('input-avatar').value;
+                        <!-- Action Buttons & Social Links -->
+                        <div class="pt-2 flex flex-wrap items-center justify-center md:justify-start gap-3">
+                            <a href="#contact" class="px-5 py-2.5 rounded-lg bg-cyber-neon text-black font-semibold text-sm hover:bg-cyan-300 transition glow-neon">
+                                <i class="fas fa-paper-plane mr-2"></i>Hubungi Saya
+                            </a>
+                            <a id="github-link" href="https://github.com" target="_blank" class="px-4 py-2.5 rounded-lg bg-gray-800 hover:bg-gray-700 border border-gray-700 text-sm font-mono transition">
+                                <i class="fab fa-github mr-2"></i>GitHub
+                            </a>
+                            <a id="instagram-link" href="https://instagram.com" target="_blank" class="px-4 py-2.5 rounded-lg bg-gray-800 hover:bg-gray-700 border border-gray-700 text-sm font-mono transition text-pink-400">
+                                <i class="fab fa-instagram mr-2"></i>Instagram
+                            </a>
+                            <a id="email-link" href="mailto:example@gmail.com" class="px-4 py-2.5 rounded-lg bg-gray-800 hover:bg-gray-700 border border-gray-700 text-sm font-mono transition text-blue-400">
+                                <i class="fas fa-envelope mr-2"></i>Email
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-            localStorage.setItem('user_name', newName);
-            localStorage.setItem('user_role', newRole);
-            localStorage.setItem('user_avatar', newAvatar);
+        <!-- Skills Section with Tabs -->
+        <section id="skills" class="space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-800 pb-4">
+                <div>
+                    <h2 class="text-2xl font-bold font-mono text-cyber-neon flex items-center gap-2">
+                        <i class="fas fa-code text-cyber-pink"></i> Keahlian & Teknologi
+                    </h2>
+                    <p class="text-xs text-gray-400 font-mono mt-1">Bahasa, Kerangka Kerja & Alat yang Digunakan</p>
+                </div>
 
-            applyProfileData();
-            toggleProfileModal();
-        }
+                <!-- Skill Filter Tabs -->
+                <div class="flex flex-wrap gap-2 font-mono text-xs" id="skill-tabs">
+                    <button data-category="all" class="skill-tab active px-3 py-1.5 rounded-md bg-cyber-neon text-black font-semibold transition">Semua</button>
+                    <button data-category="frontend" class="skill-tab px-3 py-1.5 rounded-md bg-gray-800 hover:bg-gray-700 transition">Frontend</button>
+                    <button data-category="backend" class="skill-tab px-3 py-1.5 rounded-md bg-gray-800 hover:bg-gray-700 transition">Backend</button>
+                    <button data-category="tools" class="skill-tab px-3 py-1.5 rounded-md bg-gray-800 hover:bg-gray-700 transition">Alat & Cyber</button>
+                </div>
+            </div>
 
-        // Load & Aplikasikan Profil Saat Web Di-load
-        function applyProfileData() {
-            const savedName = localStorage.getItem('user_name') || 'Epepjutaa';
-            const savedRole = localStorage.getItem('user_role') || '🚀 Full-Stack Developer & Tech Enthusiast';
-            const savedAvatar = localStorage.getItem('user_avatar') || 'https://ui-avatars.com/api/?name=Epepjutaa&background=0D8ABC&color=fff&size=128';
+            <!-- Skills Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4" id="skills-container">
+                <!-- Dynamic Skill Items Rendered via JS -->
+            </div>
+        </section>
 
-            document.getElementById('profile-name').innerText = '👋 Halo, Saya ' + savedName;
-            document.getElementById('profile-role').innerText = savedRole;
-            document.getElementById('profile-avatar').src = savedAvatar;
-            document.getElementById('welcome-avatar').src = savedAvatar;
-        }
+        <!-- Projects Showcase Section -->
+        <section id="projects" class="space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-800 pb-4">
+                <div>
+                    <h2 class="text-2xl font-bold font-mono text-cyber-neon flex items-center gap-2">
+                        <i class="fas fa-project-diagram text-cyber-purple"></i> Portfolio Proyek
+                    </h2>
+                    <p class="text-xs text-gray-400 font-mono mt-1">Daftar karya dan eksperimen pemrograman</p>
+                </div>
 
-        // Jalankan fungsi saat halaman dimuat
-        window.addEventListener('DOMContentLoaded', applyProfileData);
-    </script>
-</body>
-</html>
+                <!-- Search Input -->
+                <div class="relative w-full sm:w-64">
+                    <input type="text" id="project-search" placeholder="Cari proyek..." class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-1.5 pl-9 text-sm focus:outline-none focus:border-cyber-neon font-mono">
+                    <i class="fas fa-search absolute left-3 top-2.5 text-xs text-gray-500"></i>
+                </div>
+            </div>
+
+            <!-- Projects Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="projects-container">
+                <!-- Projects Rendered via JS -->
+            </div>
+        </section>
+
+        <!-- Timeline / Experience Section -->
+        <section id="experience" class="space-y-6">
+            <div class="border-b border-gray-800 pb-4">
+                <h2 class="text-2xl font-bold font-mono text-cyber-neon flex items-center gap-2">
+                    <i class="fas fa-history text-cyber-green"></i> Perjalanan & Pengalaman
+                </h2>
+                <p class="text-xs text-gray-400 font-mono mt-1">Jejak pembelajaran dan pencapaian</p>
+            </div>
+
+            <div class="relative border-l-2 border-cyber-neon/30 ml-4 md:ml-32 space-y-8 py-2" id="timeline-container">
+                <!-- Timeline items rendered via JS -->
+            </div>
+        </section>
+
+        <!-- Interactive Contact Section -->
+        <section id="contact" class="space-y-6">
+            <div class="border-b border-gray-800 pb-4">
+                <h2 class="text-2xl font-bold font-mono text-cyber-neon flex items-center gap-2">
+                    <i class="fas fa-envelope-open-text text-cyber-pink"></i> Kirim Pesan
+                </h2>
+                <p class="text-xs text-gray-400 font-mono mt-1">Mari berdiskusi tentang proyek atau kolaborasi</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Contact Form -->
+                <form id="contact-form" class="glass-panel p-6 rounded-xl space-y-4">
+                    <div>
+                        <label class="block text-xs font-mono text-gray-300 mb-1">Nama Lengkap</label>
+                        <input type="text" required class="w-full bg-gray-900/80 border border-gray-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-cyber-neon font-mono">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-mono text-gray-300 mb-1">Alamat Email</label>
+                        <input type="email" required class="w-full bg-gray-900/80 border border-gray-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-cyber-neon font-mono">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-mono text-gray-300 mb-1">Pesan / Topik</label>
+                        <textarea rows="4" required class="w-full bg-gray-900/80 border border-gray-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-cyber-neon font-mono"></textarea>
+                    </div>
+                    <button type="submit" class="w-full py-2.5 rounded-lg bg-gradient-to-r from-cyber-neon to-blue-600 text-black font-bold text-sm hover:opacity-90 transition glow-neon">
+                        <i class="fas fa-paper-plane mr-2"></i>Kirim Pesan Sekarang
+                    </button>
+                    <div id="contact-feedback" class="hidden text-xs font-mono text-center p-2 rounded border"></div>
+                </form>
+
+                <!-- Quick Terminal Info Box -->
+                <div class="glass-panel p-6 rounded-xl space-y-4 flex flex-col justify-between font-mono">
+                    <div>
+                        <h3 class="text-lg font-bold text-cyber-neon mb-2">&gt; System Status</h3>
+                        <p class="text-xs text-gray-400 leading-relaxed mb-4">
+                            Sistem terbuka untuk penawaran kolaborasi, pengerjaan proyek kustom, atau sekadar diskusi seputar pengembangan teknologi dan keamanan informasi.
+                        </p>
+                        
+                        <div class="space-y-2 text-xs text-gray-300">
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-map-marker-alt text-cyber-pink w-4"></i>
+                                <span>Lokasi: Indonesia (UTC+7)</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-clock text-cyber-green w-4"></i>
+                                <span>Waktu Respon: ~1-12 Jam</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-shield-alt text-cyber-neon w-4"></i>
+                                <span>Status Enkripsi: TLS 1.3 Active</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t border-gray-800">
+                        <span class="text-xs text-gray-500 block mb-2">Social Terminal Connection:</span>
+                        <div class="flex gap-3">
+                            <a href="https://github.com" target="_blank" class="w-9 h-9 rounded-lg bg-gray-800 flex items-center justify-center hover:bg-cyber-neon hover:text-black transition">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="https://instagram.com" target="_blank" class="w-9 h-9 rounded-lg bg-gray-800 flex items-center justify-center hover:bg-cyber-pink hover:text-white transition">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="mailto:example@gmail.com" class="w-9 h-9 rounded-lg bg-gray-800 flex items-center justify-center hover:bg-cyber-purple hover:text-white transition">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Interactive Terminal Drawer (Collapsible) -->
+    <div id="terminal-drawer" class="fixed bottom-0 left-0 right-0 z-50 transform translate-y-full transition-transform duration-300 ease-in-out">
+        <div class="max-w-4xl mx-auto bg-gray-950 border-t-2 border-x-2 border-cyber-neon rounded-t-xl shadow-2xl overflow-hidden">
+           
