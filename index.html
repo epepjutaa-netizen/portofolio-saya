@@ -6,6 +6,8 @@
     <title>Epepjutaa - Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Particles.js CDN -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <style>
         body {
             background-color: #0b0f19;
@@ -15,56 +17,45 @@
             position: relative;
         }
         
-        /* Particle Canvas Background */
-        #particle-canvas {
+        /* Particle Background Canvas Container */
+        #particles-js {
             position: fixed;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none;
+            top: 0;
+            left: 0;
             z-index: 0;
+            pointer-events: none;
         }
 
         .glass-card {
-            background: rgba(17, 24, 39, 0.75);
+            background: rgba(17, 24, 39, 0.8);
             backdrop-filter: blur(16px);
-            border: 1px solid rgba(0, 242, 254, 0.15);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            transition: all 0.4s ease;
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
 
         .glass-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(0, 242, 254, 0.4);
-            box-shadow: 0 12px 40px 0 rgba(0, 242, 254, 0.2);
+            border-color: rgba(0, 242, 254, 0.5);
+            box-shadow: 0 12px 40px 0 rgba(0, 242, 254, 0.25);
         }
 
         .glow-text {
-            text-shadow: 0 0 20px rgba(0, 242, 254, 0.6), 0 0 40px rgba(0, 242, 254, 0.2);
-        }
-
-        /* Pulse Animation for Badges */
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 15px rgba(0, 242, 254, 0.3); }
-            50% { box-shadow: 0 0 25px rgba(0, 242, 254, 0.7); }
-        }
-
-        .pulse-element {
-            animation: pulse-glow 3s infinite ease-in-out;
+            text-shadow: 0 0 20px rgba(0, 242, 254, 0.6);
         }
     </style>
 </head>
 <body class="min-h-screen py-8 px-4 relative">
 
-    <!-- CANVAS ANIMASI PARTIKEL LATAR BELAKANG -->
-    <canvas id="particle-canvas"></canvas>
+    <!-- CONTAINER ANIMASI BACKGROUND -->
+    <div id="particles-js"></div>
 
     <!-- UTAMA PORTOFOLIO -->
     <div class="container mx-auto max-w-4xl relative z-10">
         
         <!-- HEADER / HERO -->
-        <header class="glass-card rounded-3xl p-6 md:p-10 mb-8 text-center relative overflow-hidden pulse-element">
+        <header class="glass-card rounded-3xl p-6 md:p-10 mb-8 text-center relative overflow-hidden">
             <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=0,2,25&height=150&section=header&text=Epepjutaa%20Dev&fontSize=36&fontColor=ffffff&animation=twinkling" class="w-full rounded-2xl mb-6 shadow-md" alt="Header Banner" />
             
             <h1 class="text-3xl md:text-5xl font-black text-white glow-text mb-3">👋 Halo, Saya Epepjutaa</h1>
@@ -102,13 +93,13 @@
                 <i class="fa-solid fa-code text-[#00f2fe] text-2xl"></i> Bahasa & Tools
             </h2>
             <div class="flex flex-wrap gap-2.5">
-                <span class="bg-[#F7DF1E] text-black font-extrabold px-3.5 py-2 rounded-xl text-xs shadow-md hover:scale-110 transition-transform">JavaScript</span>
-                <span class="bg-[#3776AB] text-white font-extrabold px-3.5 py-2 rounded-xl text-xs shadow-md hover:scale-110 transition-transform">Python</span>
-                <span class="bg-[#E34F26] text-white font-extrabold px-3.5 py-2 rounded-xl text-xs shadow-md hover:scale-110 transition-transform">HTML5</span>
-                <span class="bg-[#1572B6] text-white font-extrabold px-3.5 py-2 rounded-xl text-xs shadow-md hover:scale-110 transition-transform">CSS3</span>
-                <span class="bg-[#61DAFB] text-black font-extrabold px-3.5 py-2 rounded-xl text-xs shadow-md hover:scale-110 transition-transform">React</span>
-                <span class="bg-[#F05033] text-white font-extrabold px-3.5 py-2 rounded-xl text-xs shadow-md hover:scale-110 transition-transform">Git</span>
-                <span class="bg-[#007ACC] text-white font-extrabold px-3.5 py-2 rounded-xl text-xs shadow-md hover:scale-110 transition-transform">VS Code</span>
+                <span class="bg-[#F7DF1E] text-black font-extrabold px-3.5 py-2 rounded-xl text-xs shadow-md">JavaScript</span>
+                <span class="bg-[#3776AB] text-white font-extrabold px-3.5 py-2 rounded-xl text-xs shadow-md">Python</span>
+                <span class="bg-[#E34F26] text-white font-extrabold px-3.5 py-2 rounded-xl text-xs shadow-md">HTML5</span>
+                <span class="bg-[#1572B6] text-white font-extrabold px-3.5 py-2 rounded-xl text-xs shadow-md">CSS3</span>
+                <span class="bg-[#61DAFB] text-black font-extrabold px-3.5 py-2 rounded-xl text-xs shadow-md">React</span>
+                <span class="bg-[#F05033] text-white font-extrabold px-3.5 py-2 rounded-xl text-xs shadow-md">Git</span>
+                <span class="bg-[#007ACC] text-white font-extrabold px-3.5 py-2 rounded-xl text-xs shadow-md">VS Code</span>
             </div>
         </section>
 
@@ -118,8 +109,8 @@
                 <i class="fa-solid fa-chart-line text-[#00f2fe] text-2xl"></i> Statistik GitHub
             </h2>
             <div class="space-y-4">
-                <img src="https://github-readme-stats.vercel.app/api?username=epepjutaa-netizen&show_icons=true&theme=tokyonight&include_all_commits=true" class="w-full rounded-2xl shadow-lg hover:opacity-95 transition-opacity" alt="Stats GitHub" />
-                <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=epepjutaa-netizen&layout=compact&theme=tokyonight" class="w-full rounded-2xl shadow-lg hover:opacity-95 transition-opacity" alt="Top Languages" />
+                <img src="https://github-readme-stats.vercel.app/api?username=epepjutaa-netizen&show_icons=true&theme=tokyonight&include_all_commits=true" class="w-full rounded-2xl shadow-lg" alt="Stats GitHub" />
+                <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=epepjutaa-netizen&layout=compact&theme=tokyonight" class="w-full rounded-2xl shadow-lg" alt="Top Languages" />
             </div>
         </section>
 
@@ -133,66 +124,55 @@
 
     </div>
 
-    <!-- SCRIPT ANIMASI CANVAS PARTIKEL -->
+    <!-- KONFIGURASI PARTICLES.JS -->
     <script>
-        const canvas = document.getElementById('particle-canvas');
-        const ctx = canvas.getContext('2d');
-        
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-
-        const particles = [];
-        const particleCount = 45;
-
-        for (let i = 0; i < particleCount; i++) {
-            particles.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                radius: Math.random() * 2 + 1,
-                dx: (Math.random() - 0.5) * 0.8,
-                dy: (Math.random() - 0.5) * 0.8,
-                color: Math.random() > 0.5 ? '#00f2fe' : '#7928ca'
-            });
-        }
-
-        function animateParticles() {
-            requestAnimationFrame(animateParticles);
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            particles.forEach((p, index) => {
-                p.x += p.dx;
-                p.y += p.dy;
-
-                if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
-                if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
-
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                ctx.fillStyle = p.color;
-                ctx.shadowBlur = 10;
-                ctx.shadowColor = p.color;
-                ctx.fill();
-
-                // Hubungkan garis antar partikel dekat
-                for (let j = index + 1; j < particles.length; j++) {
-                    const p2 = particles[j];
-                    const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-                    if (dist < 110) {
-                        ctx.beginPath();
-                        ctx.moveTo(p.x, p.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        ctx.strokeStyle = `rgba(0, 242, 254, ${1 - dist / 110})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.stroke();
-                    }
+        particlesJS('particles-js', {
+            "particles": {
+                "number": {
+                    "value": 50,
+                    "density": { "enable": true, "value_area": 800 }
+                },
+                "color": { "value": "#00f2fe" },
+                "shape": { "type": "circle" },
+                "opacity": {
+                    "value": 0.5,
+                    "random": false
+                },
+                "size": {
+                    "value": 3,
+                    "random": true
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#00f2fe",
+                    "opacity": 0.3,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 2,
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false
                 }
-            });
-        }
-        animateParticles();
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": { "enable": true, "mode": "grab" },
+                    "onclick": { "enable": true, "mode": "push" },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": { "distance": 140, "line_linked": { "opacity": 0.8 } },
+                    "push": { "particles_nb": 3 }
+                }
+            },
+            "retina_detect": true
+        });
     </script>
 </body>
 </html>
