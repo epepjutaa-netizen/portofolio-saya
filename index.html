@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="id" class="dark">
 <head>
@@ -19,8 +18,8 @@
                 extend: {
                     colors: {
                         cyber: {
-                            bg: '#0a0d14',
-                            card: '#111827',
+                            bg: '#040711',
+                            card: 'rgba(10, 15, 26, 0.4)',
                             border: '#1f2937',
                             neon: '#00f0ff',
                             purple: '#7000ff',
@@ -39,19 +38,20 @@
 
     <style>
         body {
-            background-color: #060913;
+            background-color: #040711;
             color: #e2e8f0;
             overflow-x: hidden;
+            position: relative;
         }
 
-        /* Canvas particles */
+        /* Canvas particles - fixed background layer */
         #bg-canvas {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
             pointer-events: none;
         }
 
@@ -59,27 +59,22 @@
         .glow-neon {
             box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
         }
-        .glow-neon-lg {
-            box-shadow: 0 0 25px rgba(0, 240, 255, 0.6);
-        }
-        .glow-purple {
-            box-shadow: 0 0 15px rgba(112, 0, 255, 0.4);
-        }
         .text-glow-neon {
             text-shadow: 0 0 10px rgba(0, 240, 255, 0.7);
         }
-        .text-glow-pink {
-            text-shadow: 0 0 10px rgba(255, 0, 127, 0.7);
-        }
 
-        /* Glassmorphism */
+        /* Glassmorphism Transparan */
         .glass-panel {
-            background: rgba(17, 24, 39, 0.75);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(0, 240, 255, 0.15);
+            background: rgba(10, 16, 30, 0.45);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            transition: all 0.3s ease;
         }
         .glass-panel:hover {
-            border-color: rgba(0, 240, 255, 0.4);
+            border-color: rgba(0, 240, 255, 0.5);
+            background: rgba(10, 16, 30, 0.55);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.15);
         }
 
         /* Custom Scrollbar */
@@ -87,7 +82,7 @@
             width: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #0a0d14;
+            background: #040711;
         }
         ::-webkit-scrollbar-thumb {
             background: #1f2937;
@@ -96,20 +91,6 @@
         }
         ::-webkit-scrollbar-thumb:hover {
             background: #00f0ff;
-        }
-
-        /* Terminal styling */
-        .terminal-cursor {
-            display: inline-block;
-            width: 8px;
-            height: 15px;
-            background-color: #00f0ff;
-            animation: blink 1s infinite;
-            vertical-align: middle;
-        }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
         }
 
         /* Audio Visualizer Bars */
@@ -124,14 +105,14 @@
         }
     </style>
 </head>
-<body class="font-sans antialiased selection:bg-cyber-neon selection:text-black">
+<body class="font-sans antialiased selection:bg-cyber-neon selection:text-black min-h-screen">
 
     <!-- Background Particle Canvas -->
     <canvas id="bg-canvas"></canvas>
 
     <!-- Top Navigation Bar -->
-    <header class="sticky top-0 z-40 glass-panel border-b border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <header class="sticky top-0 z-40 glass-panel border-b border-gray-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between relative z-10">
             <!-- Logo / Brand -->
             <div class="flex items-center space-x-3">
                 <span class="text-cyber-neon font-mono font-bold text-xl tracking-wider text-glow-neon">
@@ -141,17 +122,17 @@
 
             <!-- Navigation Links -->
             <nav class="hidden md:flex items-center space-x-6 text-sm font-mono">
-                <a href="#about" class="hover:text-cyber-neon transition-colors"><span class="text-cyber-pink">01.</span> Tentag</a>
+                <a href="#about" class="hover:text-cyber-neon transition-colors"><span class="text-cyber-pink">01.</span> Tentang</a>
                 <a href="#skills" class="hover:text-cyber-neon transition-colors"><span class="text-cyber-pink">02.</span> Skill</a>
                 <a href="#projects" class="hover:text-cyber-neon transition-colors"><span class="text-cyber-pink">03.</span> Proyek</a>
                 <a href="#experience" class="hover:text-cyber-neon transition-colors"><span class="text-cyber-pink">04.</span> Karir</a>
                 <a href="#contact" class="hover:text-cyber-neon transition-colors"><span class="text-cyber-pink">05.</span> Kontak</a>
             </nav>
 
-            <!-- Actions (Audio Toggle, Terminal, Settings) -->
+            <!-- Actions -->
             <div class="flex items-center space-x-3">
-                <!-- Ambient Audio Synthesizer Toggle -->
-                <button id="audio-toggle" title="Toggle Cyber Sound FX" class="p-2.5 rounded-lg border border-gray-700 bg-gray-900/80 hover:border-cyber-neon transition flex items-center space-x-2 text-xs font-mono">
+                <!-- Ambient Audio Toggle -->
+                <button id="audio-toggle" title="Toggle Cyber Sound FX" class="p-2.5 rounded-lg border border-gray-700/60 bg-gray-900/40 hover:border-cyber-neon transition flex items-center space-x-2 text-xs font-mono">
                     <i class="fas fa-volume-mute text-gray-400" id="audio-icon"></i>
                     <div id="visualizer" class="hidden flex items-end space-x-0.5 h-4">
                         <div class="bar" style="animation-delay: 0.1s"></div>
@@ -167,7 +148,7 @@
                 </button>
 
                 <!-- Profile Settings Modal Trigger -->
-                <button id="open-settings-btn" title="Pengaturan Profil" class="p-2.5 rounded-lg border border-gray-700 bg-gray-900/80 hover:border-cyber-purple hover:text-cyber-purple transition">
+                <button id="open-settings-btn" title="Pengaturan Profil" class="p-2.5 rounded-lg border border-gray-700/60 bg-gray-900/40 hover:border-cyber-purple hover:text-cyber-purple transition">
                     <i class="fas fa-cog"></i>
                 </button>
             </div>
@@ -175,20 +156,20 @@
     </header>
 
     <!-- Main Content Container -->
-    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-20">
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-20 relative z-10">
 
         <!-- Hero / Profile Section -->
         <section id="about" class="pt-6">
             <div class="glass-panel p-6 sm:p-10 rounded-2xl relative overflow-hidden">
-                <!-- Background decorative glowing grid -->
+                <!-- Decorative Glowing Circles -->
                 <div class="absolute -right-20 -top-20 w-80 h-80 bg-cyber-neon/10 rounded-full blur-3xl pointer-events-none"></div>
                 <div class="absolute -left-20 -bottom-20 w-80 h-80 bg-cyber-purple/10 rounded-full blur-3xl pointer-events-none"></div>
 
                 <div class="flex flex-col md:flex-row items-center gap-8 relative z-10">
-                    <!-- Avatar Image with Glowing Ring -->
+                    <!-- Avatar Image -->
                     <div class="relative group">
-                        <div class="absolute -inset-1 bg-gradient-to-r from-cyber-neon via-cyber-purple to-cyber-pink rounded-full blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-pulse"></div>
-                        <img id="profile-avatar" src="https://i.ibb.co/vz1yW9g/hacker-quokka.png" alt="Avatar" class="relative w-36 h-36 sm:w-44 sm:h-44 rounded-full object-cover border-2 border-cyber-neon shadow-2xl bg-gray-900">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-cyber-neon via-cyber-purple to-cyber-pink rounded-full blur opacity-75 group-hover:opacity-100 transition duration-1000 animate-pulse"></div>
+                        <img id="profile-avatar" src="https://i.ibb.co/vz1yW9g/hacker-quokka.png" alt="Avatar" class="relative w-36 h-36 sm:w-44 sm:h-44 rounded-full object-cover border-2 border-cyber-neon shadow-2xl bg-gray-950">
                         <span class="absolute bottom-2 right-2 w-5 h-5 bg-cyber-green rounded-full border-2 border-gray-900" title="Status: Online"></span>
                     </div>
 
@@ -211,18 +192,18 @@
                             Fokus membangun aplikasi web interaktif berkinerja tinggi, sistem yang aman, serta pengalaman pengguna masa depan berestetika futuristik.
                         </p>
 
-                        <!-- Action Buttons & Social Links -->
+                        <!-- Action Buttons -->
                         <div class="pt-2 flex flex-wrap items-center justify-center md:justify-start gap-3">
                             <a href="#contact" class="px-5 py-2.5 rounded-lg bg-cyber-neon text-black font-semibold text-sm hover:bg-cyan-300 transition glow-neon">
                                 <i class="fas fa-paper-plane mr-2"></i>Hubungi Saya
                             </a>
-                            <a id="github-link" href="https://github.com" target="_blank" class="px-4 py-2.5 rounded-lg bg-gray-800 hover:bg-gray-700 border border-gray-700 text-sm font-mono transition">
+                            <a id="github-link" href="https://github.com/epepjutaa-netizen" target="_blank" class="px-4 py-2.5 rounded-lg bg-gray-900/60 hover:bg-gray-800 border border-gray-700/60 text-sm font-mono transition">
                                 <i class="fab fa-github mr-2"></i>GitHub
                             </a>
-                            <a id="instagram-link" href="https://instagram.com" target="_blank" class="px-4 py-2.5 rounded-lg bg-gray-800 hover:bg-gray-700 border border-gray-700 text-sm font-mono transition text-pink-400">
+                            <a id="instagram-link" href="https://instagram.com" target="_blank" class="px-4 py-2.5 rounded-lg bg-gray-900/60 hover:bg-gray-800 border border-gray-700/60 text-sm font-mono transition text-pink-400">
                                 <i class="fab fa-instagram mr-2"></i>Instagram
                             </a>
-                            <a id="email-link" href="mailto:example@gmail.com" class="px-4 py-2.5 rounded-lg bg-gray-800 hover:bg-gray-700 border border-gray-700 text-sm font-mono transition text-blue-400">
+                            <a id="email-link" href="mailto:example@gmail.com" class="px-4 py-2.5 rounded-lg bg-gray-900/60 hover:bg-gray-800 border border-gray-700/60 text-sm font-mono transition text-blue-400">
                                 <i class="fas fa-envelope mr-2"></i>Email
                             </a>
                         </div>
@@ -231,9 +212,9 @@
             </div>
         </section>
 
-        <!-- Skills Section with Tabs -->
+        <!-- Skills Section -->
         <section id="skills" class="space-y-6">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-800 pb-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-800/80 pb-4">
                 <div>
                     <h2 class="text-2xl font-bold font-mono text-cyber-neon flex items-center gap-2">
                         <i class="fas fa-code text-cyber-pink"></i> Keahlian & Teknologi
@@ -244,21 +225,19 @@
                 <!-- Skill Filter Tabs -->
                 <div class="flex flex-wrap gap-2 font-mono text-xs" id="skill-tabs">
                     <button data-category="all" class="skill-tab active px-3 py-1.5 rounded-md bg-cyber-neon text-black font-semibold transition">Semua</button>
-                    <button data-category="frontend" class="skill-tab px-3 py-1.5 rounded-md bg-gray-800 hover:bg-gray-700 transition">Frontend</button>
-                    <button data-category="backend" class="skill-tab px-3 py-1.5 rounded-md bg-gray-800 hover:bg-gray-700 transition">Backend</button>
-                    <button data-category="tools" class="skill-tab px-3 py-1.5 rounded-md bg-gray-800 hover:bg-gray-700 transition">Alat & Cyber</button>
+                    <button data-category="frontend" class="skill-tab px-3 py-1.5 rounded-md bg-gray-900/60 border border-gray-800 hover:bg-gray-800 transition">Frontend</button>
+                    <button data-category="backend" class="skill-tab px-3 py-1.5 rounded-md bg-gray-900/60 border border-gray-800 hover:bg-gray-800 transition">Backend</button>
+                    <button data-category="tools" class="skill-tab px-3 py-1.5 rounded-md bg-gray-900/60 border border-gray-800 hover:bg-gray-800 transition">Alat & Cyber</button>
                 </div>
             </div>
 
             <!-- Skills Grid -->
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4" id="skills-container">
-                <!-- Dynamic Skill Items Rendered via JS -->
-            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4" id="skills-container"></div>
         </section>
 
         <!-- Projects Showcase Section -->
         <section id="projects" class="space-y-6">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-800 pb-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-800/80 pb-4">
                 <div>
                     <h2 class="text-2xl font-bold font-mono text-cyber-neon flex items-center gap-2">
                         <i class="fas fa-project-diagram text-cyber-purple"></i> Portfolio Proyek
@@ -268,34 +247,30 @@
 
                 <!-- Search Input -->
                 <div class="relative w-full sm:w-64">
-                    <input type="text" id="project-search" placeholder="Cari proyek..." class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-1.5 pl-9 text-sm focus:outline-none focus:border-cyber-neon font-mono">
+                    <input type="text" id="project-search" placeholder="Cari proyek..." class="w-full bg-gray-900/60 border border-gray-700/80 rounded-lg px-3 py-1.5 pl-9 text-sm focus:outline-none focus:border-cyber-neon font-mono">
                     <i class="fas fa-search absolute left-3 top-2.5 text-xs text-gray-500"></i>
                 </div>
             </div>
 
             <!-- Projects Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="projects-container">
-                <!-- Projects Rendered via JS -->
-            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="projects-container"></div>
         </section>
 
-        <!-- Timeline / Experience Section -->
+        <!-- Timeline Section -->
         <section id="experience" class="space-y-6">
-            <div class="border-b border-gray-800 pb-4">
+            <div class="border-b border-gray-800/80 pb-4">
                 <h2 class="text-2xl font-bold font-mono text-cyber-neon flex items-center gap-2">
                     <i class="fas fa-history text-cyber-green"></i> Perjalanan & Pengalaman
                 </h2>
                 <p class="text-xs text-gray-400 font-mono mt-1">Jejak pembelajaran dan pencapaian</p>
             </div>
 
-            <div class="relative border-l-2 border-cyber-neon/30 ml-4 md:ml-32 space-y-8 py-2" id="timeline-container">
-                <!-- Timeline items rendered via JS -->
-            </div>
+            <div class="relative border-l-2 border-cyber-neon/40 ml-4 md:ml-32 space-y-8 py-2" id="timeline-container"></div>
         </section>
 
-        <!-- Interactive Contact Section -->
+        <!-- Contact Section -->
         <section id="contact" class="space-y-6">
-            <div class="border-b border-gray-800 pb-4">
+            <div class="border-b border-gray-800/80 pb-4">
                 <h2 class="text-2xl font-bold font-mono text-cyber-neon flex items-center gap-2">
                     <i class="fas fa-envelope-open-text text-cyber-pink"></i> Kirim Pesan
                 </h2>
@@ -307,15 +282,15 @@
                 <form id="contact-form" class="glass-panel p-6 rounded-xl space-y-4">
                     <div>
                         <label class="block text-xs font-mono text-gray-300 mb-1">Nama Lengkap</label>
-                        <input type="text" required class="w-full bg-gray-900/80 border border-gray-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-cyber-neon font-mono">
+                        <input type="text" required class="w-full bg-gray-900/60 border border-gray-700/80 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-cyber-neon font-mono">
                     </div>
                     <div>
                         <label class="block text-xs font-mono text-gray-300 mb-1">Alamat Email</label>
-                        <input type="email" required class="w-full bg-gray-900/80 border border-gray-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-cyber-neon font-mono">
+                        <input type="email" required class="w-full bg-gray-900/60 border border-gray-700/80 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-cyber-neon font-mono">
                     </div>
                     <div>
                         <label class="block text-xs font-mono text-gray-300 mb-1">Pesan / Topik</label>
-                        <textarea rows="4" required class="w-full bg-gray-900/80 border border-gray-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-cyber-neon font-mono"></textarea>
+                        <textarea rows="4" required class="w-full bg-gray-900/60 border border-gray-700/80 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-cyber-neon font-mono"></textarea>
                     </div>
                     <button type="submit" class="w-full py-2.5 rounded-lg bg-gradient-to-r from-cyber-neon to-blue-600 text-black font-bold text-sm hover:opacity-90 transition glow-neon">
                         <i class="fas fa-paper-plane mr-2"></i>Kirim Pesan Sekarang
@@ -323,7 +298,7 @@
                     <div id="contact-feedback" class="hidden text-xs font-mono text-center p-2 rounded border"></div>
                 </form>
 
-                <!-- Quick Terminal Info Box -->
+                <!-- Quick Info Box -->
                 <div class="glass-panel p-6 rounded-xl space-y-4 flex flex-col justify-between font-mono">
                     <div>
                         <h3 class="text-lg font-bold text-cyber-neon mb-2">&gt; System Status</h3>
@@ -350,13 +325,13 @@
                     <div class="pt-4 border-t border-gray-800">
                         <span class="text-xs text-gray-500 block mb-2">Social Terminal Connection:</span>
                         <div class="flex gap-3">
-                            <a href="https://github.com" target="_blank" class="w-9 h-9 rounded-lg bg-gray-800 flex items-center justify-center hover:bg-cyber-neon hover:text-black transition">
+                            <a href="https://github.com/epepjutaa-netizen" target="_blank" class="w-9 h-9 rounded-lg bg-gray-900/60 border border-gray-700/60 flex items-center justify-center hover:bg-cyber-neon hover:text-black transition">
                                 <i class="fab fa-github"></i>
                             </a>
-                            <a href="https://instagram.com" target="_blank" class="w-9 h-9 rounded-lg bg-gray-800 flex items-center justify-center hover:bg-cyber-pink hover:text-white transition">
+                            <a href="https://instagram.com" target="_blank" class="w-9 h-9 rounded-lg bg-gray-900/60 border border-gray-700/60 flex items-center justify-center hover:bg-cyber-pink hover:text-white transition">
                                 <i class="fab fa-instagram"></i>
                             </a>
-                            <a href="mailto:example@gmail.com" class="w-9 h-9 rounded-lg bg-gray-800 flex items-center justify-center hover:bg-cyber-purple hover:text-white transition">
+                            <a href="mailto:example@gmail.com" class="w-9 h-9 rounded-lg bg-gray-900/60 border border-gray-700/60 flex items-center justify-center hover:bg-cyber-purple hover:text-white transition">
                                 <i class="fas fa-envelope"></i>
                             </a>
                         </div>
@@ -367,7 +342,11 @@
 
     </main>
 
-    <!-- Interactive Terminal Drawer (Collapsible) -->
+    <!-- Terminal Drawer (Collapsible) -->
     <div id="terminal-drawer" class="fixed bottom-0 left-0 right-0 z-50 transform translate-y-full transition-transform duration-300 ease-in-out">
-        <div class="max-w-4xl mx-auto bg-gray-950 border-t-2 border-x-2 border-cyber-neon rounded-t-xl shadow-2xl overflow-hidden">
-           
+        <div class="max-w-4xl mx-auto bg-gray-950/90 backdrop-blur-md border-t-2 border-x-2 border-cyber-neon rounded-t-xl shadow-2xl overflow-hidden">
+            <div class="bg-gray-900/80 px-4 py-2 flex items-center justify-between border-b border-gray-800">
+                <div class="flex items-center space-x-2">
+                    <span class="w-3 h-3 rounded-full bg-red-500 inline-block cursor-pointer" id="terminal-close-dot"></span>
+                    <span class="w-3 h-3 rounded-full bg-yellow-500 inline-block"></span>
+                    <span class="w-3 h-3 rounded-full bg-green-500 in
