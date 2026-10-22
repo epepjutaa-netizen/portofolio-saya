@@ -19,7 +19,7 @@
                     colors: {
                         cyber: {
                             bg: '#040711',
-                            card: 'rgba(10, 15, 26, 0.4)',
+                            card: 'rgba(10, 15, 26, 0.35)',
                             border: '#1f2937',
                             neon: '#00f0ff',
                             purple: '#7000ff',
@@ -44,7 +44,7 @@
             position: relative;
         }
 
-        /* Canvas particles - fixed background layer */
+        /* Canvas particles - fixed layer paling belakang */
         #bg-canvas {
             position: fixed;
             top: 0;
@@ -63,18 +63,18 @@
             text-shadow: 0 0 10px rgba(0, 240, 255, 0.7);
         }
 
-        /* Glassmorphism Transparan */
+        /* Glassmorphism Transparan Bening */
         .glass-panel {
-            background: rgba(10, 16, 30, 0.45);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: rgba(10, 16, 30, 0.35) !important;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             border: 1px solid rgba(0, 240, 255, 0.2);
             transition: all 0.3s ease;
         }
         .glass-panel:hover {
             border-color: rgba(0, 240, 255, 0.5);
-            background: rgba(10, 16, 30, 0.55);
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.15);
+            background: rgba(10, 16, 30, 0.5) !important;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
         }
 
         /* Custom Scrollbar */
@@ -107,10 +107,10 @@
 </head>
 <body class="font-sans antialiased selection:bg-cyber-neon selection:text-black min-h-screen">
 
-    <!-- Background Particle Canvas -->
+    <!-- Background Particle Canvas (ANIMASI UTAMA) -->
     <canvas id="bg-canvas"></canvas>
 
-    <!-- Top Navigation Bar -->
+    <!-- Navigation Bar -->
     <header class="sticky top-0 z-40 glass-panel border-b border-gray-800/80">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between relative z-10">
             <!-- Logo / Brand -->
@@ -131,7 +131,7 @@
 
             <!-- Actions -->
             <div class="flex items-center space-x-3">
-                <!-- Ambient Audio Toggle -->
+                <!-- Audio Toggle -->
                 <button id="audio-toggle" title="Toggle Cyber Sound FX" class="p-2.5 rounded-lg border border-gray-700/60 bg-gray-900/40 hover:border-cyber-neon transition flex items-center space-x-2 text-xs font-mono">
                     <i class="fas fa-volume-mute text-gray-400" id="audio-icon"></i>
                     <div id="visualizer" class="hidden flex items-end space-x-0.5 h-4">
@@ -161,7 +161,6 @@
         <!-- Hero / Profile Section -->
         <section id="about" class="pt-6">
             <div class="glass-panel p-6 sm:p-10 rounded-2xl relative overflow-hidden">
-                <!-- Decorative Glowing Circles -->
                 <div class="absolute -right-20 -top-20 w-80 h-80 bg-cyber-neon/10 rounded-full blur-3xl pointer-events-none"></div>
                 <div class="absolute -left-20 -bottom-20 w-80 h-80 bg-cyber-purple/10 rounded-full blur-3xl pointer-events-none"></div>
 
@@ -188,7 +187,7 @@
                             🚀 Pengembang Full-Stack & Penggemar Keamanan Cyber
                         </p>
 
-                        <p id="profile-bio" class="text-gray-400 max-w-2xl text-sm leading-relaxed">
+                        <p id="profile-bio" class="text-gray-300 max-w-2xl text-sm leading-relaxed">
                             Fokus membangun aplikasi web interaktif berkinerja tinggi, sistem yang aman, serta pengalaman pengguna masa depan berestetika futuristik.
                         </p>
 
@@ -231,7 +230,6 @@
                 </div>
             </div>
 
-            <!-- Skills Grid -->
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4" id="skills-container"></div>
         </section>
 
@@ -245,14 +243,12 @@
                     <p class="text-xs text-gray-400 font-mono mt-1">Daftar karya dan eksperimen pemrograman</p>
                 </div>
 
-                <!-- Search Input -->
                 <div class="relative w-full sm:w-64">
                     <input type="text" id="project-search" placeholder="Cari proyek..." class="w-full bg-gray-900/60 border border-gray-700/80 rounded-lg px-3 py-1.5 pl-9 text-sm focus:outline-none focus:border-cyber-neon font-mono">
                     <i class="fas fa-search absolute left-3 top-2.5 text-xs text-gray-500"></i>
                 </div>
             </div>
 
-            <!-- Projects Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="projects-container"></div>
         </section>
 
@@ -302,7 +298,7 @@
                 <div class="glass-panel p-6 rounded-xl space-y-4 flex flex-col justify-between font-mono">
                     <div>
                         <h3 class="text-lg font-bold text-cyber-neon mb-2">&gt; System Status</h3>
-                        <p class="text-xs text-gray-400 leading-relaxed mb-4">
+                        <p class="text-xs text-gray-300 leading-relaxed mb-4">
                             Sistem terbuka untuk penawaran kolaborasi, pengerjaan proyek kustom, atau sekadar diskusi seputar pengembangan teknologi dan keamanan informasi.
                         </p>
                         
@@ -323,7 +319,7 @@
                     </div>
 
                     <div class="pt-4 border-t border-gray-800">
-                        <span class="text-xs text-gray-500 block mb-2">Social Terminal Connection:</span>
+                        <span class="text-xs text-gray-400 block mb-2">Social Terminal Connection:</span>
                         <div class="flex gap-3">
                             <a href="https://github.com/epepjutaa-netizen" target="_blank" class="w-9 h-9 rounded-lg bg-gray-900/60 border border-gray-700/60 flex items-center justify-center hover:bg-cyber-neon hover:text-black transition">
                                 <i class="fab fa-github"></i>
@@ -349,4 +345,6 @@
                 <div class="flex items-center space-x-2">
                     <span class="w-3 h-3 rounded-full bg-red-500 inline-block cursor-pointer" id="terminal-close-dot"></span>
                     <span class="w-3 h-3 rounded-full bg-yellow-500 inline-block"></span>
-                    <span class="w-3 h-3 rounded-full bg-green-500 in
+                    <span class="w-3 h-3 rounded-full bg-green-500 inline-block"></span>
+                    <span class="text-xs font-mono text-gray-400 ml-2">cyber-cli@epepjutaa:~</span>
+   
