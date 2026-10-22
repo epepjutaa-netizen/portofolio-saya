@@ -8,95 +8,191 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
-            background-color: #0d1117;
+            background-color: #0b0f19;
             color: #c9d1d9;
             font-family: system-ui, -apple-system, sans-serif;
             overflow-x: hidden;
+            position: relative;
         }
-        .glass {
-            background: rgba(22, 27, 34, 0.85);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        
+        /* Particle Canvas Background */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
         }
+
+        .glass-card {
+            background: rgba(17, 24, 39, 0.75);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 242, 254, 0.15);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 242, 254, 0.4);
+            box-shadow: 0 12px 40px 0 rgba(0, 242, 254, 0.2);
+        }
+
         .glow-text {
-            text-shadow: 0 0 15px rgba(0, 242, 254, 0.6);
+            text-shadow: 0 0 20px rgba(0, 242, 254, 0.6), 0 0 40px rgba(0, 242, 254, 0.2);
+        }
+
+        /* Pulse Animation for Badges */
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 15px rgba(0, 242, 254, 0.3); }
+            50% { box-shadow: 0 0 25px rgba(0, 242, 254, 0.7); }
+        }
+
+        .pulse-element {
+            animation: pulse-glow 3s infinite ease-in-out;
         }
     </style>
 </head>
-<body class="min-h-screen py-6 px-4">
+<body class="min-h-screen py-8 px-4 relative">
+
+    <!-- CANVAS ANIMASI PARTIKEL LATAR BELAKANG -->
+    <canvas id="particle-canvas"></canvas>
 
     <!-- UTAMA PORTOFOLIO -->
-    <div class="container mx-auto max-w-4xl">
+    <div class="container mx-auto max-w-4xl relative z-10">
         
         <!-- HEADER / HERO -->
-        <header class="glass rounded-2xl p-6 md:p-10 mb-8 text-center relative overflow-hidden">
-            <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=0,2,25&height=150&section=header&text=Epepjutaa%20Dev&fontSize=36&fontColor=ffffff&animation=twinkling" class="w-full rounded-lg mb-6" alt="Header Banner" />
+        <header class="glass-card rounded-3xl p-6 md:p-10 mb-8 text-center relative overflow-hidden pulse-element">
+            <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=0,2,25&height=150&section=header&text=Epepjutaa%20Dev&fontSize=36&fontColor=ffffff&animation=twinkling" class="w-full rounded-2xl mb-6 shadow-md" alt="Header Banner" />
             
-            <h1 class="text-3xl md:text-5xl font-black text-white glow-text mb-2">👋 Halo, Saya Epepjutaa</h1>
-            <p class="text-[#00f2fe] font-medium text-lg mb-6">🚀 Full-Stack Developer & Tech Enthusiast</p>
+            <h1 class="text-3xl md:text-5xl font-black text-white glow-text mb-3">👋 Halo, Saya Epepjutaa</h1>
+            <p class="text-[#00f2fe] font-semibold text-lg mb-6 tracking-wide">🚀 Full-Stack Developer & Tech Enthusiast</p>
             
-            <!-- BUTTON SOSIAL MEDIA & LINK -->
-            <div class="flex flex-wrap gap-3 justify-center">
-                <a href="https://instagram.com" target="_blank" class="bg-[#E4405F] hover:opacity-90 text-white font-semibold px-4 py-2.5 rounded-lg text-sm flex items-center gap-2 transition-all">
+            <!-- BUTTON SOSIAL MEDIA -->
+            <div class="flex flex-wrap gap-4 justify-center">
+                <a href="https://instagram.com" target="_blank" class="bg-gradient-to-r from-[#E4405F] to-[#fd1d1d] hover:scale-105 text-white font-bold px-5 py-2.5 rounded-xl text-sm flex items-center gap-2 transition-transform shadow-lg shadow-pink-500/30">
                     <i class="fa-brands fa-instagram text-lg"></i> Instagram
                 </a>
-                <a href="https://github.com/epepjutaa-netizen" target="_blank" class="bg-[#24292e] border border-gray-600 hover:bg-gray-800 text-white font-semibold px-4 py-2.5 rounded-lg text-sm flex items-center gap-2 transition-all">
+                <a href="https://github.com/epepjutaa-netizen" target="_blank" class="bg-[#1f2937] border border-cyan-500/30 hover:border-cyan-400 hover:scale-105 text-white font-bold px-5 py-2.5 rounded-xl text-sm flex items-center gap-2 transition-transform shadow-lg shadow-cyan-500/20">
                     <i class="fa-brands fa-github text-lg"></i> GitHub
                 </a>
-                <a href="mailto:emailanda@gmail.com" class="bg-[#EA4335] hover:opacity-90 text-white font-semibold px-4 py-2.5 rounded-lg text-sm flex items-center gap-2 transition-all">
+                <a href="mailto:emailanda@gmail.com" class="bg-gradient-to-r from-[#EA4335] to-[#ff6b5b] hover:scale-105 text-white font-bold px-5 py-2.5 rounded-xl text-sm flex items-center gap-2 transition-transform shadow-lg shadow-red-500/30">
                     <i class="fa-solid fa-envelope text-lg"></i> Email
                 </a>
             </div>
         </header>
 
         <!-- TENTANG SAYA -->
-        <section class="glass rounded-2xl p-6 mb-8">
-            <h2 class="text-xl font-bold text-white mb-4 border-b border-gray-700 pb-2 flex items-center gap-2">
-                <i class="fa-solid fa-user text-[#00f2fe]"></i> Tentang Saya
+        <section class="glass-card rounded-3xl p-6 md:p-8 mb-8">
+            <h2 class="text-xl font-bold text-white mb-4 border-b border-gray-700/60 pb-3 flex items-center gap-3">
+                <i class="fa-solid fa-user-astronaut text-[#00f2fe] text-2xl"></i> Tentang Saya
             </h2>
-            <ul class="space-y-3 text-gray-300 text-sm md:text-base">
-                <li>🔭 <b>Proyek Saat Ini:</b> Mengembangkan aplikasi & platform web modern.</li>
-                <li>🌱 <b>Sedang Mempelajari:</b> JavaScript, Python, HTML/CSS, & React.</li>
-                <li>💬 <b>Diskusi:</b> Terbuka untuk diskusi pemrograman, teknologi, dan proyek kolaborasi.</li>
+            <ul class="space-y-3 text-gray-300 text-sm md:text-base leading-relaxed">
+                <li class="flex items-start gap-2"><span class="text-lg">🔭</span> <span><b>Proyek Saat Ini:</b> Mengembangkan aplikasi & platform web modern interaktif.</span></li>
+                <li class="flex items-start gap-2"><span class="text-lg">🌱</span> <span><b>Sedang Mempelajari:</b> JavaScript, Python, HTML/CSS, & React.</span></li>
+                <li class="flex items-start gap-2"><span class="text-lg">💬</span> <span><b>Diskusi:</b> Terbuka untuk diskusi pemrograman, teknologi, dan kolaborasi.</span></li>
             </ul>
         </section>
 
         <!-- BAHASA & TOOLS -->
-        <section class="glass rounded-2xl p-6 mb-8">
-            <h2 class="text-xl font-bold text-white mb-4 border-b border-gray-700 pb-2 flex items-center gap-2">
-                <i class="fa-solid fa-code text-[#00f2fe]"></i> Bahasa & Tools
+        <section class="glass-card rounded-3xl p-6 md:p-8 mb-8">
+            <h2 class="text-xl font-bold text-white mb-4 border-b border-gray-700/60 pb-3 flex items-center gap-3">
+                <i class="fa-solid fa-code text-[#00f2fe] text-2xl"></i> Bahasa & Tools
             </h2>
-            <div class="flex flex-wrap gap-2">
-                <span class="bg-[#F7DF1E] text-black font-bold px-3 py-1.5 rounded-md text-xs">JavaScript</span>
-                <span class="bg-[#3776AB] text-white font-bold px-3 py-1.5 rounded-md text-xs">Python</span>
-                <span class="bg-[#E34F26] text-white font-bold px-3 py-1.5 rounded-md text-xs">HTML5</span>
-                <span class="bg-[#1572B6] text-white font-bold px-3 py-1.5 rounded-md text-xs">CSS3</span>
-                <span class="bg-[#61DAFB] text-black font-bold px-3 py-1.5 rounded-md text-xs">React</span>
-                <span class="bg-[#F05033] text-white font-bold px-3 py-1.5 rounded-md text-xs">Git</span>
-                <span class="bg-[#007ACC] text-white font-bold px-3 py-1.5 rounded-md text-xs">VS Code</span>
+            <div class="flex flex-wrap gap-2.5">
+                <span class="bg-[#F7DF1E] text-black font-extrabold px-3.5 py-2 rounded-xl text-xs shadow-md hover:scale-110 transition-transform">JavaScript</span>
+                <span class="bg-[#3776AB] text-white font-extrabold px-3.5 py-2 rounded-xl text-xs shadow-md hover:scale-110 transition-transform">Python</span>
+                <span class="bg-[#E34F26] text-white font-extrabold px-3.5 py-2 rounded-xl text-xs shadow-md hover:scale-110 transition-transform">HTML5</span>
+                <span class="bg-[#1572B6] text-white font-extrabold px-3.5 py-2 rounded-xl text-xs shadow-md hover:scale-110 transition-transform">CSS3</span>
+                <span class="bg-[#61DAFB] text-black font-extrabold px-3.5 py-2 rounded-xl text-xs shadow-md hover:scale-110 transition-transform">React</span>
+                <span class="bg-[#F05033] text-white font-extrabold px-3.5 py-2 rounded-xl text-xs shadow-md hover:scale-110 transition-transform">Git</span>
+                <span class="bg-[#007ACC] text-white font-extrabold px-3.5 py-2 rounded-xl text-xs shadow-md hover:scale-110 transition-transform">VS Code</span>
             </div>
         </section>
 
         <!-- STATISTIK GITHUB -->
-        <section class="glass rounded-2xl p-6 mb-8">
-            <h2 class="text-xl font-bold text-white mb-4 border-b border-gray-700 pb-2 flex items-center gap-2">
-                <i class="fa-solid fa-chart-simple text-[#00f2fe]"></i> Statistik GitHub
+        <section class="glass-card rounded-3xl p-6 md:p-8 mb-8">
+            <h2 class="text-xl font-bold text-white mb-4 border-b border-gray-700/60 pb-3 flex items-center gap-3">
+                <i class="fa-solid fa-chart-line text-[#00f2fe] text-2xl"></i> Statistik GitHub
             </h2>
             <div class="space-y-4">
-                <img src="https://github-readme-stats.vercel.app/api?username=epepjutaa-netizen&show_icons=true&theme=tokyonight&include_all_commits=true" class="w-full rounded-lg" alt="Stats GitHub" />
-                <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=epepjutaa-netizen&layout=compact&theme=tokyonight" class="w-full rounded-lg" alt="Top Languages" />
+                <img src="https://github-readme-stats.vercel.app/api?username=epepjutaa-netizen&show_icons=true&theme=tokyonight&include_all_commits=true" class="w-full rounded-2xl shadow-lg hover:opacity-95 transition-opacity" alt="Stats GitHub" />
+                <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=epepjutaa-netizen&layout=compact&theme=tokyonight" class="w-full rounded-2xl shadow-lg hover:opacity-95 transition-opacity" alt="Top Languages" />
             </div>
         </section>
 
         <!-- FOOTER -->
-        <footer class="text-center py-6 text-xs text-gray-500">
+        <footer class="text-center py-6 text-xs text-gray-400">
             <p>© 2026 Epepjutaa. All rights reserved.</p>
-            <div class="mt-2">
-                <img src="https://profile-counter.glitch.me/epepjutaa-netizen/count.svg" alt="Visitor Count" class="mx-auto" />
+            <div class="mt-3">
+                <img src="https://profile-counter.glitch.me/epepjutaa-netizen/count.svg" alt="Visitor Count" class="mx-auto rounded-md shadow-sm" />
             </div>
         </footer>
 
     </div>
 
+    <!-- SCRIPT ANIMASI CANVAS PARTIKEL -->
+    <script>
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = [];
+        const particleCount = 45;
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 2 + 1,
+                dx: (Math.random() - 0.5) * 0.8,
+                dy: (Math.random() - 0.5) * 0.8,
+                color: Math.random() > 0.5 ? '#00f2fe' : '#7928ca'
+            });
+        }
+
+        function animateParticles() {
+            requestAnimationFrame(animateParticles);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach((p, index) => {
+                p.x += p.dx;
+                p.y += p.dy;
+
+                if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = p.color;
+                ctx.fill();
+
+                // Hubungkan garis antar partikel dekat
+                for (let j = index + 1; j < particles.length; j++) {
+                    const p2 = particles[j];
+                    const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+                    if (dist < 110) {
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.strokeStyle = `rgba(0, 242, 254, ${1 - dist / 110})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            });
+        }
+        animateParticles();
+    </script>
 </body>
 </html>
