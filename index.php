@@ -1,0 +1,334 @@
+```html
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Epepjutaa | Futuristic Developer Portfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cyberDark: '#030712',
+                        cyberSlate: '#0f172a',
+                        cyberCard: 'rgba(15, 23, 42, 0.7)',
+                        neonCyan: '#00f2fe',
+                        neonPurple: '#7928ca',
+                        neonPink: '#ff007f',
+                        neonGreen: '#10b981'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace']
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'glow-cyan': 'glowCyan 3s ease-in-out infinite alternate',
+                        'glow-purple': 'glowPurple 3s ease-in-out infinite alternate',
+                        'float': 'float 5s ease-in-out infinite'
+                    },
+                    keyframes: {
+                        glowCyan: {
+                            '0%': { boxShadow: '0 0 15px rgba(0, 242, 254, 0.3)' },
+                            '100%': { boxShadow: '0 0 35px rgba(0, 242, 254, 0.8), 0 0 50px rgba(0, 242, 254, 0.4)' }
+                        },
+                        glowPurple: {
+                            '0%': { boxShadow: '0 0 15px rgba(121, 40, 202, 0.3)' },
+                            '100%': { boxShadow: '0 0 35px rgba(121, 40, 202, 0.8), 0 0 50px rgba(121, 40, 202, 0.4)' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-12px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #030712;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 242, 254, 0.2);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00f2fe;
+        }
+
+        /* Glassmorphism Styles */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        .glass-panel-hover:hover {
+            border-color: rgba(0, 242, 254, 0.5);
+            box-shadow: 0 0 25px rgba(0, 242, 254, 0.15);
+        }
+
+        .neon-border {
+            position: relative;
+        }
+        .neon-border::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            background: linear-gradient(45deg, #00f2fe, #7928ca, #ff007f);
+            border-radius: inherit;
+            z-index: -1;
+            opacity: 0.3;
+            transition: opacity 0.3s ease;
+        }
+        .neon-border:hover::before {
+            opacity: 1;
+        }
+
+        /* Scanline effect overlay */
+        .scanlines {
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0, 0, 0, 0.2) 50%,
+                rgba(0, 0, 0, 0.2)
+            );
+            background-size: 100% 4px;
+        }
+    </style>
+</head>
+<body class="bg-cyberDark text-slate-100 font-sans antialiased selection:bg-neonCyan selection:text-black overflow-x-hidden">
+
+    <!-- Interactive Canvas Particles Background -->
+    <canvas id="particleCanvas" class="fixed inset-0 pointer-events-none z-0 opacity-60"></canvas>
+
+    <!-- FULLSCREEN SPLASH / WELCOME ENTRANCE SCREEN -->
+    <div id="splashScreen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-cyberDark transition-opacity duration-1000">
+        <!-- Ambient Glowing Background Elements -->
+        <div class="absolute w-96 h-96 bg-neonCyan/20 rounded-full blur-[120px] pointer-events-none animate-pulse-slow"></div>
+        <div class="absolute w-96 h-96 bg-neonPurple/20 rounded-full blur-[120px] pointer-events-none animate-pulse-slow" style="animation-delay: 2s;"></div>
+        
+        <div class="relative z-10 text-center px-4 max-w-xl">
+            <!-- Animated Cyber Avatar/Logo -->
+            <div class="relative w-28 h-28 mx-auto mb-8 cursor-pointer group" onclick="enterPortfolio()">
+                <div class="absolute inset-0 rounded-full bg-gradient-to-r from-neonCyan via-neonPurple to-neonPink animate-spin" style="animation-duration: 8s;"></div>
+                <div class="absolute inset-1 bg-cyberDark rounded-full flex items-center justify-center">
+                    <span class="text-4xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-neonCyan to-neonPurple group-hover:scale-110 transition-transform duration-300">
+                        EJ
+                    </span>
+                </div>
+            </div>
+
+            <!-- Typing SVG Header -->
+            <div class="h-16 flex items-center justify-center mb-4">
+                <h1 id="typingText" class="text-2xl md:text-3xl font-mono font-bold text-neonCyan tracking-wide"></h1>
+                <span class="inline-block w-2.5 h-7 ml-1 bg-neonCyan animate-pulse"></span>
+            </div>
+
+            <p class="text-slate-400 text-sm md:text-base mb-8 tracking-wider">
+                Full-Stack Developer & Tech Enthusiast Universe
+            </p>
+
+            <!-- Enter Button -->
+            <button onclick="enterPortfolio()" class="relative inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-white overflow-hidden rounded-full group bg-gradient-to-r from-neonCyan/20 to-neonPurple/20 border border-neonCyan/50 hover:border-neonCyan transition-all duration-300 shadow-[0_0_20px_rgba(0,242,254,0.3)] hover:shadow-[0_0_35px_rgba(0,242,254,0.7)]">
+                <span class="absolute w-0 h-0 transition-all duration-500 ease-out bg-gradient-to-r from-neonCyan to-neonPurple rounded-full group-hover:w-56 group-hover:h-56 opacity-80"></span>
+                <span class="relative flex items-center gap-2 tracking-widest uppercase text-sm">
+                    Enter Portfolio <i class="fa-solid fa-bolt text-neonCyan group-hover:text-white transition-colors"></i>
+                </span>
+            </button>
+        </div>
+
+        <!-- Footnote inside splash -->
+        <div class="absolute bottom-6 text-xs text-slate-600 font-mono">
+            Press anywhere or click button to initiate
+        </div>
+    </div>
+
+    <!-- MAIN PORTFOLIO CONTENT (Hidden initially, revealed after splash) -->
+    <div id="mainContent" class="opacity-0 transition-opacity duration-1000 relative z-10">
+
+        <!-- NAV BAR -->
+        <header class="fixed top-0 left-0 right-0 z-40 glass-panel border-b border-slate-800/80 transition-all duration-300">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+                <!-- Logo -->
+                <a href="#hero" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-neonCyan to-neonPurple p-0.5 group-hover:shadow-[0_0_15px_rgba(0,242,254,0.5)] transition-all">
+                        <div class="w-full h-full bg-cyberDark rounded-[10px] flex items-center justify-center">
+                            <span class="text-lg font-black text-neonCyan font-mono">EJ</span>
+                        </div>
+                    </div>
+                    <span class="text-xl font-bold tracking-tight text-white font-mono group-hover:text-neonCyan transition-colors">
+                        Epepjutaa<span class="text-neonCyan">.dev</span>
+                    </span>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+                    <a href="#about" class="text-slate-300 hover:text-neonCyan transition-colors flex items-center gap-2">
+                        <span class="text-neonCyan text-xs font-mono">01.</span> About
+                    </a>
+                    <a href="#skills" class="text-slate-300 hover:text-neonCyan transition-colors flex items-center gap-2">
+                        <span class="text-neonCyan text-xs font-mono">02.</span> Tech Stack
+                    </a>
+                    <a href="#projects" class="text-slate-300 hover:text-neonCyan transition-colors flex items-center gap-2">
+                        <span class="text-neonCyan text-xs font-mono">03.</span> Projects
+                    </a>
+                    <a href="#contact" class="text-slate-300 hover:text-neonCyan transition-colors flex items-center gap-2">
+                        <span class="text-neonCyan text-xs font-mono">04.</span> Contact
+                    </a>
+                </nav>
+
+                <!-- Socials & CTA -->
+                <div class="hidden md:flex items-center gap-4">
+                    <a href="https://github.com/epepjutaa-netizen" target="_blank" class="w-9 h-9 rounded-lg bg-slate-800/80 flex items-center justify-center text-slate-300 hover:text-neonCyan hover:bg-slate-800 border border-slate-700/50 hover:border-neonCyan transition-all">
+                        <i class="fa-brands fa-github text-lg"></i>
+                    </a>
+                    <a href="https://instagram.com" target="_blank" class="w-9 h-9 rounded-lg bg-slate-800/80 flex items-center justify-center text-slate-300 hover:text-neonPink hover:bg-slate-800 border border-slate-700/50 hover:border-neonPink transition-all">
+                        <i class="fa-brands fa-instagram text-lg"></i>
+                    </a>
+                    <a href="#contact" class="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-black bg-neonCyan rounded-lg hover:bg-cyan-300 transition-all shadow-[0_0_15px_rgba(0,242,254,0.4)]">
+                        Hire Me
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Toggle Button -->
+                <button id="mobileMenuBtn" class="md:hidden w-10 h-10 rounded-lg glass-panel flex items-center justify-center text-slate-300 focus:outline-none">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Navigation Overlay -->
+            <div id="mobileMenu" class="hidden md:hidden glass-panel border-b border-slate-800 px-6 py-6 transition-all duration-300">
+                <div class="flex flex-col gap-4">
+                    <a href="#about" onclick="toggleMobileMenu()" class="text-slate-300 hover:text-neonCyan transition-colors py-2 border-b border-slate-800/50">
+                        <span class="text-neonCyan font-mono mr-2">01.</span> About Me
+                    </a>
+                    <a href="#skills" onclick="toggleMobileMenu()" class="text-slate-300 hover:text-neonCyan transition-colors py-2 border-b border-slate-800/50">
+                        <span class="text-neonCyan font-mono mr-2">02.</span> Tech Stack
+                    </a>
+                    <a href="#projects" onclick="toggleMobileMenu()" class="text-slate-300 hover:text-neonCyan transition-colors py-2 border-b border-slate-800/50">
+                        <span class="text-neonCyan font-mono mr-2">03.</span> Projects
+                    </a>
+                    <a href="#contact" onclick="toggleMobileMenu()" class="text-slate-300 hover:text-neonCyan transition-colors py-2 border-b border-slate-800/50">
+                        <span class="text-neonCyan font-mono mr-2">04.</span> Contact
+                    </a>
+                    <div class="flex items-center gap-4 pt-4">
+                        <a href="https://github.com/epepjutaa-netizen" target="_blank" class="px-4 py-2 rounded-lg bg-slate-800 text-slate-200 text-sm flex items-center gap-2">
+                            <i class="fa-brands fa-github"></i> GitHub
+                        </a>
+                        <a href="https://instagram.com" target="_blank" class="px-4 py-2 rounded-lg bg-slate-800 text-slate-200 text-sm flex items-center gap-2">
+                            <i class="fa-brands fa-instagram text-neonPink"></i> Instagram
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- SECTION 1: HERO SECTION -->
+        <section id="hero" class="min-h-screen pt-28 pb-16 flex items-center relative overflow-hidden">
+            <!-- Background Glowing Orbs -->
+            <div class="absolute top-1/4 left-10 w-80 h-80 bg-neonCyan/10 rounded-full blur-[140px] pointer-events-none"></div>
+            <div class="absolute bottom-10 right-10 w-96 h-96 bg-neonPurple/15 rounded-full blur-[140px] pointer-events-none"></div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
+                <div class="grid lg:grid-cols-12 gap-12 items-center">
+                    
+                    <!-- Left Hero Bio -->
+                    <div class="lg:col-span-7 space-y-6 text-left">
+                        <!-- Status Badge -->
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-panel border border-emerald-500/30 text-emerald-400 text-xs font-mono tracking-wide">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                            <span>Available for new projects & collaborations</span>
+                        </div>
+
+                        <h1 class="text-4xl sm:text-6xl font-black tracking-tight text-white leading-tight">
+                            Hi, I'm <span class="text-transparent bg-clip-text bg-gradient-to-r from-neonCyan via-teal-300 to-neonPurple">Epepjutaa</span> 👋
+                        </h1>
+
+                        <h2 class="text-xl sm:text-2xl font-semibold text-slate-300 font-mono flex items-center gap-2">
+                            <i class="fa-solid fa-code text-neonCyan"></i> Full-Stack Developer & Innovator
+                        </h2>
+
+                        <p class="text-slate-400 text-base sm:text-lg max-w-2xl leading-relaxed">
+                            Crafting high-performance, visually stunning web applications and futuristic digital experiences. Specialized in JavaScript ecosystem, modern UI design, and creative coding.
+                        </p>
+
+                        <!-- Action Buttons -->
+                        <div class="pt-4 flex flex-wrap gap-4 items-center">
+                            <a href="#projects" class="px-6 py-3.5 rounded-xl bg-gradient-to-r from-neonCyan to-cyan-500 text-cyberDark font-bold text-sm tracking-wider uppercase hover:opacity-90 transition-all shadow-[0_0_20px_rgba(0,242,254,0.4)] flex items-center gap-2">
+                                <i class="fa-solid fa-rocket"></i> Explore Work
+                            </a>
+                            <a href="#contact" class="px-6 py-3.5 rounded-xl glass-panel text-slate-200 font-semibold text-sm tracking-wider uppercase hover:text-neonCyan hover:border-neonCyan transition-all flex items-center gap-2">
+                                <i class="fa-solid fa-envelope"></i> Contact Me
+                            </a>
+                        </div>
+
+                        <!-- Social Links Bar -->
+                        <div class="pt-6 border-t border-slate-800/80 flex items-center gap-6 text-slate-400">
+                            <span class="text-xs font-mono uppercase tracking-widest text-slate-500">Connect:</span>
+                            <a href="https://github.com/epepjutaa-netizen" target="_blank" class="hover:text-neonCyan text-xl transition-colors" title="GitHub">
+                                <i class="fa-brands fa-github"></i>
+                            </a>
+                            <a href="https://instagram.com" target="_blank" class="hover:text-neonPink text-xl transition-colors" title="Instagram">
+                                <i class="fa-brands fa-instagram"></i>
+                            </a>
+                            <a href="mailto:emailanda@gmail.com" class="hover:text-amber-400 text-xl transition-colors" title="Email">
+                                <i class="fa-solid fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Right Hero Visual Card -->
+                    <div class="lg:col-span-5 relative">
+                        <div class="relative w-full max-w-md mx-auto aspect-square rounded-3xl glass-panel p-6 border border-slate-800 shadow-2xl flex flex-col justify-between overflow-hidden animate-float">
+                            <!-- Background Grid Overlay -->
+                            <div class="absolute inset-0 opacity-20 scanlines pointer-events-none"></div>
+
+                            <!-- Avatar Header -->
+                            <div class="flex items-center justify-between z-10">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-3 h-3 rounded-full bg-rose-500"></div>
+                                    <div class="w-3 h-3 rounded-full bg-amber-500"></div>
+                                    <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
+                                </div>
+                                <span class="text-xs font-mono text-neonCyan">epepjutaa.config.js</span>
+                            </div>
+
+                            <!-- Avatar Image / Icon Container -->
+                            <div class="my-auto text-center py-6 z-10">
+                                <div class="relative w-32 h-32 mx-auto mb-4 rounded-full p-1 bg-gradient-to-tr from-neonCyan via-neonPurple to-neonPink animate-glow-cyan">
+                                    <div class="w-full h-full bg-cyberDark rounded-full flex items-center justify-center overflow-hidden">
+                                        <i class="fa-solid fa-user-ninja text-5xl text-neonCyan"></i>
+                                    </div>
+                                </div>
+                                <h3 class="text-xl font-bold text-white font-mono">Epepjutaa</h3>
+                                <p class="text-xs text-slate-400 mt-1 font-mono">&lt;Code / Create / Innovate /&gt;</p>
+                            </div>
+
+                            <!-- Code Console Teaser -->
+                            <div class="bg-slate-950/80 rounded-xl p-3 font-mono text-xs text-slate-300 border border-slate-800 z-10">
+                                <div class="text-emerald-400">$ epepjutaa --status</div>
+                                <div class="text-slate-400 mt-1">&gt; System online. Ready for execution.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                
